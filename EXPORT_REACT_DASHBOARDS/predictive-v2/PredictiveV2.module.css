@@ -1,0 +1,377 @@
+/**
+ * 🧠 PREDICTIVE ANALYTICS V2 DASHBOARD - GOLDEN RATIO CSS MODULE
+ * 
+ * Design baseado em Fibonacci e Golden Ratio (Φ ≈ 1.618):
+ * - Grid: Colunas dinâmicas 3→5→8→13→21 (Fibonacci)
+ * - Spacing: 3, 5, 8, 13, 21, 34px (Fibonacci)
+ * - Typography: 8, 13, 21, 34, 55, 89px (Fibonacci)
+ * - Timing: 89ms, 144ms, 233ms, 377ms (Fibonacci)
+ * - Easing: cubic-bezier(0.618, 0, 0.382, 1) (Golden)
+ */
+
+/* Container principal */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgb(15, 23, 42) 0%,
+    rgb(17, 24, 39) 61.8%, /* Golden point */
+    rgb(15, 23, 42) 100%
+  );
+  padding: 21px; /* Fibonacci */
+}
+
+/* Loading states com Golden timing */
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  color: rgba(255, 255, 255, 0.618); /* Golden opacity */
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.loadingIcon {
+  font-size: 55px; /* Fibonacci */
+  margin-bottom: 21px; /* Fibonacci */
+  animation: pulse 1.618s ease-in-out infinite; /* Golden duration */
+}
+
+.loadingText {
+  font-size: 21px; /* Fibonacci */
+  font-weight: 600;
+  margin-bottom: 8px; /* Fibonacci */
+}
+
+.loadingSubtext {
+  font-size: 13px; /* Fibonacci */
+  opacity: 0.618; /* Golden opacity */
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.618; /* Golden */
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Error banner com Fibonacci spacing */
+.errorBanner {
+  background: rgba(239, 68, 68, 0.236); /* Golden opacity */
+  border: 1px solid rgba(239, 68, 68, 0.382); /* 1/Φ opacity */
+  border-radius: 8px; /* Fibonacci */
+  padding: 13px 21px; /* Fibonacci */
+  margin-bottom: 21px; /* Fibonacci */
+  color: #FCA5A5;
+  font-size: 13px; /* Fibonacci */
+  animation: slideDown 0.377s cubic-bezier(0.618, 0, 0.382, 1); /* Golden easing */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-21px); /* Fibonacci */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Content area com Golden Ratio layout */
+.content {
+  max-width: 2584px; /* Fibonacci breakpoint */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 21px; /* Fibonacci */
+}
+
+/**
+ * KPI Row - Fibonacci spacing (89px height)
+ * 4 métricas principais em proporção áurea
+ */
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 21px; /* Fibonacci */
+  margin-bottom: 13px; /* Fibonacci */
+}
+
+/**
+ * Section Title - Título da seção de gráficos
+ * Golden Ratio typography
+ */
+.sectionTitle {
+  font-size: 21px; /* Fibonacci */
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 21px; /* Fibonacci */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px; /* Fibonacci */
+}
+
+.gridInfo {
+  font-size: 13px; /* Fibonacci */
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: none;
+}
+
+/**
+ * Charts Grid - Golden Ratio System
+ * Grid inteligente com spans dinâmicos responsivos
+ * Auto-reorganização mantendo Golden Ratio em todos os breakpoints
+ */
+.chartsRow {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr); /* Fibonacci: 13 colunas (padrão wide) */
+  gap: 21px; /* Fibonacci */
+  grid-auto-flow: dense; /* CRÍTICO: Preenche gaps automaticamente */
+  grid-auto-rows: minmax(280px, auto); /* Altura mínima Fibonacci */
+  align-items: stretch; /* Blocos ocupam altura total */
+  justify-items: stretch; /* Blocos ocupam largura total */
+}
+
+/* Chart container global - aplicado a todos os blocos */
+.chartsRow > * {
+  transition: all 0.377s cubic-bezier(0.618, 0, 0.382, 1); /* Golden timing & easing */
+}
+
+/**
+ * Responsive Breakpoints - Fibonacci Sequence
+ * Mobile → Tablet → Desktop → Wide → Ultra
+ * Spans dinâmicos via useGoldenGridLayout hook
+ */
+
+/* Mobile: ≤ 609px (pré-610 Fibonacci) - 3 colunas */
+@media (max-width: 609px) {
+  .chartsRow {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 13px !important; /* Fibonacci menor */
+  }
+  
+  .chartsRow > * {
+    grid-column: 1 / -1 !important; /* Full width */
+  }
+  
+  .kpiRow {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+}
+
+/* Tablet: 610px - 986px (Fibonacci) - 5 colunas */
+@media (min-width: 610px) and (max-width: 986px) {
+  .chartsRow {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+  
+  .chartsRow > * {
+    grid-column: span 5 !important; /* All blocks full width */
+  }
+  
+  .kpiRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: 987px - 1596px (Fibonacci) - 8 colunas */
+@media (min-width: 987px) and (max-width: 1596px) {
+  .chartsRow {
+    grid-template-columns: repeat(8, 1fr) !important;
+  }
+  
+  /* Large blocks: span 5 (62.5% width) */
+  .chartsRow > *[data-size="large"] {
+    grid-column: span 5 !important;
+  }
+  
+  /* Medium blocks: span 3 (37.5% width) */
+  .chartsRow > *[data-size="medium"] {
+    grid-column: span 3 !important;
+  }
+}
+
+/* Wide: 1597px - 2583px (Fibonacci) - 13 colunas (padrão) */
+@media (min-width: 1597px) and (max-width: 2583px) {
+  .chartsRow {
+    grid-template-columns: repeat(13, 1fr) !important;
+  }
+  
+  /* Large blocks: span 8 (61.5% width) - Golden Ratio */
+  .chartsRow > *[data-size="large"] {
+    grid-column: span 8 !important;
+  }
+  
+  /* Medium blocks: span 5 (38.5% width) - Golden Ratio */
+  .chartsRow > *[data-size="medium"] {
+    grid-column: span 5 !important;
+  }
+}
+
+/* Ultra: ≥ 2584px (Fibonacci) - 21 colunas */
+@media (min-width: 2584px) {
+  .chartsRow {
+    grid-template-columns: repeat(21, 1fr) !important;
+  }
+  
+  /* Large blocks: span 13 (61.9% width) - Golden Ratio */
+  .chartsRow > *[data-size="large"] {
+    grid-column: span 13 !important;
+  }
+  
+  /* Medium blocks: span 8 (38.1% width) - Golden Ratio */
+  .chartsRow > *[data-size="medium"] {
+    grid-column: span 8 !important;
+  }
+}
+
+/**
+ * Table Wrapper - Rankings e Tabelas
+ * Proporção Golden Ratio para conteúdo
+ */
+.tableWrapper {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 350px; /* Aproximadamente Fibonacci 377px */
+}
+
+.rankingTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px; /* Fibonacci */
+}
+
+.rankingTable thead {
+  position: sticky;
+  top: 0;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+.rankingTable th {
+  padding: 13px 8px; /* Fibonacci */
+  text-align: left;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px; /* Fibonacci */
+}
+
+.rankingTable tbody tr {
+  transition: background-color 0.233s ease; /* Fibonacci timing */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rankingTable tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rankingTable td {
+  padding: 13px 8px; /* Fibonacci */
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Estilos específicos por coluna */
+.rank {
+  width: 55px; /* Fibonacci */
+  text-align: center;
+  font-weight: 600;
+  font-size: 21px; /* Fibonacci */
+}
+
+.hostId {
+  font-family: 'Courier New', monospace;
+  color: #60A5FA;
+  font-size: 13px; /* Fibonacci */
+}
+
+.metricName {
+  font-family: 'Courier New', monospace;
+  color: #34D399;
+  font-size: 13px; /* Fibonacci */
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelType {
+  color: #A78BFA;
+  font-size: 13px; /* Fibonacci */
+}
+
+.number {
+  text-align: right;
+  font-weight: 600;
+  font-size: 21px; /* Fibonacci */
+  color: #10B981;
+}
+
+.confidence {
+  position: relative;
+  min-width: 89px; /* Fibonacci */
+  padding-left: 5px; /* Fibonacci */
+}
+
+.confidenceBar {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 5px; /* Fibonacci */
+  background: linear-gradient(
+    90deg,
+    #10B981 0%,
+    #059669 61.8%, /* Golden point */
+    #047857 100%
+  );
+  border-radius: 3px; /* Fibonacci */
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.confidence span {
+  position: relative;
+  z-index: 1;
+  color: #10B981;
+  font-weight: 600;
+  font-size: 13px; /* Fibonacci */
+}
+
+/**
+ * Scrollbar personalizada - Golden Ratio
+ */
+.tableWrapper::-webkit-scrollbar {
+  width: 8px; /* Fibonacci */
+  height: 8px; /* Fibonacci */
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px; /* Fibonacci */
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px; /* Fibonacci */
+  transition: background 0.233s ease; /* Fibonacci timing */
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

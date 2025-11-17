@@ -1,0 +1,248 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║              🚀 QUICK REFERENCE - DEPLOYMENT COMMANDS                      ║
+║                                                                            ║
+║                   Host: 10.253.100.16:45829 (User: nereidas)              ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════
+1️⃣  DEPLOYMENT INICIAL (PRIMEIRA VEZ)
+═══════════════════════════════════════════════════════════════════════════════
+
+# Rodar script de deployment automatizado:
+./deploy-react-export.sh
+
+# Isso irá:
+✓ Validar SSH
+✓ Comprimir e enviar arquivos
+✓ Instalar dependências
+✓ Fazer build
+✓ Criar .env.production
+✓ Gerar service file
+
+⏱️  Tempo: ~5-10 minutos (depende da conexão)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+2️⃣  INICIAR PROJETO (APÓS DEPLOYMENT)
+═══════════════════════════════════════════════════════════════════════════════
+
+# Opção A: Setup PM2 (Recomendado - rodará sempre)
+./manage-remote-dashboard.sh setup
+
+# Opção B: Iniciar manualmente em desenvolvimento
+ssh -p 45829 nereidas@10.253.100.16
+cd /home/nereidas/projects/EXPORT_REACT_DASHBOARDS
+npm run dev
+
+# Opção C: Iniciar em produção
+npm run start
+
+
+═══════════════════════════════════════════════════════════════════════════════
+3️⃣  GERENCIAR PROJETO
+═══════════════════════════════════════════════════════════════════════════════
+
+# Ver status
+./manage-remote-dashboard.sh status
+
+# Ver logs em tempo real
+./manage-remote-dashboard.sh logs
+
+# Reiniciar
+./manage-remote-dashboard.sh restart
+
+# Parar
+./manage-remote-dashboard.sh stop
+
+# Iniciar
+./manage-remote-dashboard.sh start
+
+# Ver processos
+./manage-remote-dashboard.sh ps
+
+# Testar conexão
+./manage-remote-dashboard.sh ping
+
+
+═══════════════════════════════════════════════════════════════════════════════
+4️⃣  ACESSAR URLS
+═══════════════════════════════════════════════════════════════════════════════
+
+Após iniciar o projeto (assumindo porta 3000):
+
+Login:
+  http://10.253.100.16:3000/dashboard/login
+
+Executive Dashboard:
+  http://10.253.100.16:3000/dashboard/executive
+
+Operational v2:
+  http://10.253.100.16:3000/dashboard/operational-v2
+
+Predictive v2:
+  http://10.253.100.16:3000/dashboard/predictive-v2
+
+Legacy Dashboard:
+  http://10.253.100.16:3000/dashboard/dashboard-oficial
+
+
+═══════════════════════════════════════════════════════════════════════════════
+5️⃣  SSH DIRETO
+═══════════════════════════════════════════════════════════════════════════════
+
+# Conectar ao servidor
+ssh -p 45829 nereidas@10.253.100.16
+
+# Uma vez conectado:
+cd /home/nereidas/projects/EXPORT_REACT_DASHBOARDS
+
+# Ver logs (se usando PM2)
+pm2 logs corelytics-dashboard
+
+# Ver status (se usando PM2)
+pm2 status
+
+# Reiniciar manualmente
+pm2 restart corelytics-dashboard
+
+
+═══════════════════════════════════════════════════════════════════════════════
+6️⃣  TROUBLESHOOTING RÁPIDO
+═══════════════════════════════════════════════════════════════════════════════
+
+Problema: Porta 3000 em uso
+  lsof -i :3000
+  kill -9 <PID>
+
+Problema: npm: command not found
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+
+Problema: PM2 não está funcionando
+  ./manage-remote-dashboard.sh install-pm2
+  ./manage-remote-dashboard.sh setup
+
+Problema: Build falha
+  cd /home/nereidas/projects/EXPORT_REACT_DASHBOARDS
+  rm -rf .next node_modules package-lock.json
+  npm install --legacy-peer-deps
+  npm run build
+
+
+═══════════════════════════════════════════════════════════════════════════════
+7️⃣  CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+☐ SSH funciona: ./manage-remote-dashboard.sh ping
+☐ Deployment concluído: ./deploy-react-export.sh
+☐ Projeto iniciado: ./manage-remote-dashboard.sh status
+☐ Login funciona: http://10.253.100.16:3000/dashboard/login
+☐ Executive dashboard carrega
+☐ Menu de navegação funciona
+☐ Chat assistant está respondendo
+☐ PM2 ou systemd configurado para auto-start
+
+
+═══════════════════════════════════════════════════════════════════════════════
+📊 ARQUIVOS IMPORTANTES
+═══════════════════════════════════════════════════════════════════════════════
+
+Local:
+  deploy-react-export.sh         ← Script principal de deployment
+  manage-remote-dashboard.sh     ← Gerenciador remoto
+  DEPLOY_GUIDE.md                ← Guia completo
+  QUICK_REFERENCE.txt            ← Este arquivo
+
+Servidor:
+  /home/nereidas/projects/EXPORT_REACT_DASHBOARDS/
+    ├── README.md
+    ├── INTEGRATION_GUIDE.md
+    ├── .env.production
+    ├── package.json
+    ├── .next/ (build otimizado)
+    └── ...
+
+
+═══════════════════════════════════════════════════════════════════════════════
+⚡ SHORTCUTS ÚTEIS
+═══════════════════════════════════════════════════════════════════════════════
+
+# Deploy + Setup + Start (tudo em um)
+./deploy-react-export.sh && sleep 2 && ./manage-remote-dashboard.sh setup
+
+# Redeploy (limpar cache e fazer novo build)
+ssh -p 45829 nereidas@10.253.100.16 << 'EOF'
+cd /home/nereidas/projects/EXPORT_REACT_DASHBOARDS
+pm2 stop corelytics-dashboard
+rm -rf .next node_modules
+npm install --legacy-peer-deps
+npm run build
+pm2 start corelytics-dashboard
+pm2 logs corelytics-dashboard
+EOF
+
+# Backup rápido
+ssh -p 45829 nereidas@10.253.100.16 << 'EOF'
+cd /home/nereidas/projects
+tar -czf EXPORT_REACT_DASHBOARDS_backup_$(date +%Y%m%d_%H%M%S).tar.gz EXPORT_REACT_DASHBOARDS/
+ls -lh EXPORT_REACT_DASHBOARDS_backup_*.tar.gz
+EOF
+
+# Logs com timestamp
+./manage-remote-dashboard.sh logs | tee deployment-$(date +%Y%m%d_%H%M%S).log
+
+
+═══════════════════════════════════════════════════════════════════════════════
+🎯 WORKFLOW TÍPICO
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Primeira vez:
+   $ cd /ai-monitoring
+   $ ./deploy-react-export.sh
+
+2. Após deployment (aguarde 10 minutos):
+   $ ./manage-remote-dashboard.sh setup
+
+3. Acompanhar logs:
+   $ ./manage-remote-dashboard.sh logs
+
+4. Verificar status:
+   $ ./manage-remote-dashboard.sh status
+
+5. Acessar URLs:
+   http://10.253.100.16:3000/dashboard/login
+
+6. Reiniciar se necessário:
+   $ ./manage-remote-dashboard.sh restart
+
+
+═══════════════════════════════════════════════════════════════════════════════
+💡 DICAS
+═══════════════════════════════════════════════════════════════════════════════
+
+• Sempre testar SSH antes de fazer deploy:
+  ssh -p 45829 nereidas@10.253.100.16 "echo OK"
+
+• PM2 salva estado automaticamente, mesmo com restart de servidor
+
+• Use PM2 Plus para monitoring em tempo real: pm2.io
+
+• Configure nginx como proxy reverso para usar porta 80
+
+• Faça backup regularmente do projeto
+
+• Mantenha .env.production com credenciais seguras
+
+• Configure firewall para permitir porta 3000 (ou nginx 80/443)
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Status: 🟢 PRONTO PARA DEPLOYMENT
+Data: 2025-11-17
+Versão: 1.0.0
+
+═══════════════════════════════════════════════════════════════════════════════

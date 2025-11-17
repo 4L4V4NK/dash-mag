@@ -1,0 +1,500 @@
+/**
+ * Bento Grid Golden Ratio - CSS Module (Refactored)
+ * 
+ * Sistema de grid híbrido que combina:
+ * - Estilo visual Bento (compacto, modular, agrupado)
+ * - Matemática Golden Ratio (Φ ≈ 1.618)
+ * - Sequência Fibonacci (spacing, heights, timing)
+ * - 5 breakpoints responsivos
+ * 
+ * Grid: 5 → 8 → 13 → 21 colunas (Fibonacci)
+ * Gap: 13 → 21 → 34 → 55px (Fibonacci)
+ * Heights: 89, 144, 233, 377, 610px (Fibonacci)
+ * 
+ * @author Nereidas AI Monitoring - Design System
+ * @version 1.1.0
+ */
+
+/* ============================================
+   VARIABLES - Golden Ratio & Fibonacci
+   ============================================ */
+
+.container {
+  /* Golden Ratio */
+  --phi: 1.618033988749895;
+  --phi-inv: 0.618033988749895; /* 1/Φ = Φ - 1 */
+  
+  /* Fibonacci Sequence */
+  --fib-3: 3px;
+  --fib-5: 5px;
+  --fib-8: 8px;
+  --fib-13: 13px;
+  --fib-21: 21px;
+  --fib-34: 34px;
+  --fib-55: 55px;
+  --fib-89: 89px;
+  --fib-144: 144px;
+  --fib-233: 233px;
+  --fib-377: 377px;
+  --fib-610: 610px;
+  
+  /* Timing Fibonacci */
+  --timing-fast: 89ms;
+  --timing-base: 144ms;
+  --timing-medium: 233ms;
+  --timing-slow: 377ms;
+  
+  /* Golden Easing */
+  --golden-easing: cubic-bezier(0.618, 0, 0.382, 1);
+  
+  /* Bento Colors */
+  --bento-bg-primary: rgba(26, 29, 41, 0.7);
+  --bento-bg-secondary: rgba(17, 19, 26, 0.6);
+  --bento-border: rgba(75, 85, 130, 0.15);
+  --bento-border-hover: rgba(10, 77, 140, 0.4);
+  --bento-accent: rgba(10, 77, 140, 0.08);
+  --bento-accent-hover: rgba(10, 77, 140, 0.15);
+}
+
+/* ============================================
+   MAIN CONTAINER - Bento Grid
+   ============================================ */
+
+.bentoGridContainer {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 21px;
+  grid-auto-flow: dense;
+  align-items: start;
+  justify-items: stretch;
+  padding: 21px;
+  
+  /* Desktop: 13 colunas */
+  --grid-cols: 13;
+  --grid-gap: 21px;
+}
+
+/* ============================================
+   KPIS CONTAINER - Bento Style Agrupamento
+   ============================================ */
+
+.kpisContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 13px;
+  
+  background: linear-gradient(
+    135deg,
+    rgba(17, 19, 26, 0.6) 0%,
+    rgba(26, 29, 41, 0.5) 61.8%,
+    rgba(17, 19, 26, 0.6) 100%
+  );
+  border-radius: 21px;
+  padding: 21px;
+  border: 1px solid rgba(75, 85, 130, 0.15);
+  
+  box-shadow: 
+    0 8px 21px rgba(10, 77, 140, 0.08),
+    0 3px 8px rgba(10, 77, 140, 0.05);
+  
+  transition: all 377ms cubic-bezier(0.618, 0, 0.382, 1);
+}
+
+.kpisContainer:hover {
+  border-color: rgba(10, 77, 140, 0.4);
+  box-shadow: 
+    0 13px 34px rgba(10, 77, 140, 0.15),
+    0 5px 13px rgba(10, 77, 140, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   BENTO KPI CARD
+   ============================================ */
+
+.bentoKPICard {
+  background: rgba(26, 29, 41, 0.7);
+  border-radius: 13px;
+  padding: 13px;
+  border: 1px solid rgba(75, 85, 130, 0.15);
+  
+  min-height: 89px;
+  max-height: 89px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  transition: all 377ms cubic-bezier(0.618, 0, 0.382, 1);
+}
+
+.bentoKPICard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 77, 140, 0.08) 0%,
+    transparent 61.8%
+  );
+  opacity: 0;
+  transition: opacity 377ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bentoKPICard:hover {
+  background: rgba(26, 29, 41, 0.95);
+  border-color: rgba(10, 77, 140, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 8px 21px rgba(10, 77, 140, 0.2),
+    0 3px 8px rgba(10, 77, 140, 0.1);
+}
+
+.bentoKPICard:hover::before {
+  opacity: 1;
+}
+
+.bentoKPICard > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   BENTO CHART BLOCK
+   ============================================ */
+
+.bentoChartBlock {
+  background: rgba(26, 29, 41, 0.7);
+  border-radius: 13px;
+  padding: 21px;
+  border: 1px solid rgba(75, 85, 130, 0.15);
+  
+  min-height: 233px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  transition: all 377ms cubic-bezier(0.618, 0, 0.382, 1);
+}
+
+.bentoChartBlock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 77, 140, 0.03) 0%,
+    transparent 61.8%
+  );
+  opacity: 0;
+  transition: opacity 377ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bentoChartBlock:hover {
+  background: rgba(26, 29, 41, 0.9);
+  border-color: rgba(10, 77, 140, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 13px 34px rgba(10, 77, 140, 0.2),
+    0 5px 13px rgba(10, 77, 140, 0.12);
+}
+
+.bentoChartBlock:hover::before {
+  opacity: 1;
+}
+
+.bentoChartBlock > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   BENTO EVENTS TABLE
+   ============================================ */
+
+.bentoEventsTable {
+  background: rgba(26, 29, 41, 0.7);
+  border-radius: 13px;
+  padding: 21px;
+  border: 1px solid rgba(75, 85, 130, 0.15);
+  
+  min-height: calc(89px * 2 + 13px);
+  max-height: calc(89px * 2 + 13px);
+  
+  display: flex;
+  flex-direction: column;
+  
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  transition: all 377ms cubic-bezier(0.618, 0, 0.382, 1);
+}
+
+.bentoEventsTable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 77, 140, 0.03) 0%,
+    transparent 61.8%
+  );
+  opacity: 0;
+  transition: opacity 377ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bentoEventsTable:hover {
+  background: rgba(26, 29, 41, 0.9);
+  border-color: rgba(10, 77, 140, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 13px 34px rgba(10, 77, 140, 0.2),
+    0 5px 13px rgba(10, 77, 140, 0.12);
+}
+
+.bentoEventsTable:hover::before {
+  opacity: 1;
+}
+
+.bentoEventsTable > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   GRID INFO
+   ============================================ */
+
+.gridInfo {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   RESPONSIVE - Fibonacci Breakpoints
+   ============================================ */
+
+/* Mobile: ≤609px → 5 colunas */
+@media (max-width: 609px) {
+  .bentoGridContainer {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 13px;
+    padding: 13px;
+  }
+  
+  .kpisContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    gap: 8px;
+    padding: 13px;
+  }
+  
+  .bentoKPICard {
+    min-height: 89px;
+    max-height: 89px;
+  }
+  
+  .bentoChartBlock {
+    min-height: 144px;
+  }
+  
+  .bentoEventsTable {
+    min-height: 144px;
+    max-height: none;
+  }
+}
+
+/* Tablet: 610px to 986px → 8 colunas */
+@media (min-width: 610px) and (max-width: 986px) {
+  .bentoGridContainer {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 21px;
+    padding: 21px;
+  }
+  
+  .kpisContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+    padding: 13px;
+  }
+  
+  .bentoKPICard {
+    min-height: 89px;
+    max-height: 89px;
+  }
+  
+  .bentoChartBlock {
+    min-height: 144px;
+  }
+  
+  .bentoEventsTable {
+    min-height: calc(89px + 13px);
+    max-height: calc(89px + 13px);
+  }
+}
+
+/* Desktop: 987px to 1596px → 13 colunas */
+@media (min-width: 987px) and (max-width: 1596px) {
+  .bentoGridContainer {
+    grid-template-columns: repeat(13, 1fr);
+    gap: 21px;
+    padding: 21px;
+  }
+  
+  .kpisContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+    padding: 21px;
+  }
+  
+  .bentoKPICard {
+    min-height: 89px;
+    max-height: 89px;
+  }
+  
+  .bentoChartBlock {
+    min-height: 233px;
+  }
+  
+  .bentoEventsTable {
+    min-height: calc(89px * 2 + 13px);
+    max-height: calc(89px * 2 + 13px);
+  }
+}
+
+/* Ultra-wide: ≥1597px → 21 colunas */
+@media (min-width: 1597px) {
+  .bentoGridContainer {
+    grid-template-columns: repeat(21, 1fr);
+    gap: 34px;
+    padding: 34px;
+  }
+  
+  .kpisContainer {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 21px;
+    padding: 34px;
+  }
+  
+  .bentoKPICard {
+    min-height: 144px;
+    max-height: 144px;
+  }
+  
+  .bentoChartBlock {
+    min-height: 377px;
+  }
+  
+  .bentoEventsTable {
+    min-height: calc(144px * 2 + 21px);
+    max-height: calc(144px * 2 + 21px);
+  }
+}
+
+/* ============================================
+   GRID PLACEMENT - Auto-generated by hook
+   ============================================ */
+
+/* Exemplo: KPI Block ocupa 4 colunas (24.6% - Golden Ratio) */
+.kpiBlock {
+  grid-column: span 4;
+}
+
+/* Charts R-T ocupam 6 colunas (46.2%) */
+.chartBlockLarge {
+  grid-column: span 6;
+}
+
+/* Charts ocupam 3 colunas (23.1%) */
+.chartBlockSmall {
+  grid-column: span 3;
+}
+
+/* Events table ocupa 4 colunas (24.6%) */
+.eventsBlock {
+  grid-column: span 4;
+}
+
+/* ============================================
+   ANIMATION STATES
+   ============================================ */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.floating {
+  animation: float 4s ease-in-out infinite;
+}
+
+.pulsing {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   UTILITY - Text overflow handling
+   ============================================ */
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lineClamp2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lineClamp3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

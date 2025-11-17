@@ -1,0 +1,51 @@
+{
+  "name": "ai-monitoring-dashboards",
+  "version": "1.0.0",
+  "description": "React Dashboard Components - Ready for Integration",
+  "author": "Nereidas AI Monitoring",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.0 || ^13.0.0",
+    "recharts": "^2.8.0",
+    "lucide-react": "^0.263.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [
+    "dashboard",
+    "react",
+    "next.js",
+    "bento-grid",
+    "golden-ratio",
+    "monitoring",
+    "clickhouse"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rcastrorezende93/ai-monitoring.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rcastrorezende93/ai-monitoring/issues"
+  },
+  "homepage": "https://github.com/rcastrorezende93/ai-monitoring#readme"
+}

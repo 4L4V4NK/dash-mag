@@ -1,0 +1,408 @@
+/**
+ * 🌟 OPERATIONAL DASHBOARD V2 - GOLDEN RATIO CSS MODULE
+ * 
+ * Design baseado em Fibonacci e Golden Ratio (Φ ≈ 1.618):
+ * - Spacing: 3, 5, 8, 13, 21, 34, 55, 89px (Fibonacci)
+ * - Typography: 8, 13, 21, 34, 55px (Fibonacci)
+ * - Grid: 13 colunas (Fibonacci)
+ * - Gaps: 21px (Fibonacci)
+ * - Animations: 89ms, 144ms, 233ms, 377ms (Fibonacci)
+ * - Breakpoints: 377px, 610px, 987px, 1597px, 2584px (Fibonacci)
+ */
+
+/* Container principal */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0A0E27 0%, #1A1F3A 100%);
+  padding: 21px; /* Fibonacci */
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  color: rgba(255, 255, 255, 0.618); /* Golden opacity */
+}
+
+.loadingContent {
+  text-align: center;
+}
+
+.loadingIcon {
+  font-size: 34px; /* Fibonacci */
+  margin-bottom: 13px; /* Fibonacci */
+  animation: pulse 1.618s ease-in-out infinite; /* Golden duration */
+}
+
+.loadingText {
+  font-size: 21px; /* Fibonacci */
+  color: rgba(255, 255, 255, 0.87);
+  margin-bottom: 8px; /* Fibonacci */
+}
+
+.loadingSubtext {
+  font-size: 13px; /* Fibonacci */
+  color: rgba(255, 255, 255, 0.382); /* 1/Φ */
+  margin-top: 5px; /* Fibonacci */
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.382; } /* 1/Φ */
+  50% { opacity: 1; }
+}
+
+/* Error Banner */
+.errorBanner {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.15));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px; /* Fibonacci */
+  padding: 13px 21px; /* Fibonacci */
+  margin-bottom: 21px; /* Fibonacci */
+  display: flex;
+  align-items: center;
+  gap: 13px; /* Fibonacci */
+  font-size: 13px; /* Fibonacci */
+  color: #FCA5A5;
+}
+
+/* Content area com Golden Ratio layout */
+.contentArea {
+  max-width: 2584px; /* Fibonacci - ultra-wide breakpoint */
+  margin: 0 auto;
+  padding: 0 8px; /* Fibonacci */
+}
+
+.sectionTitle {
+  font-size: 21px; /* Fibonacci */
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.87);
+  margin-bottom: 21px; /* Fibonacci */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gridInfo {
+  font-size: 13px; /* Fibonacci */
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.382); /* 1/Φ */
+}
+
+/**
+ * Charts Grid - Golden Ratio System
+ * 
+ * Grid dinâmico com 13 colunas (Fibonacci):
+ * - Blocos grandes: span 8 (Fibonacci)
+ * - Blocos médios: span 5 (Fibonacci)
+ * - Proporção 8:5 = 1.6 ≈ Φ (Golden Ratio)
+ * 
+ * Auto-reorganização: grid-auto-flow: dense
+ * Quando um bloco é ocultado, os demais preenchem o espaço
+ */
+.chartsRow {
+  display: grid;
+  /* grid-template-columns definido inline via props (3, 5, 8, 13, 21 colunas) */
+  /* gap definido inline via props (8, 13, 21, 34px) */
+  grid-auto-rows: minmax(233px, auto); /* Fibonacci */
+  grid-auto-flow: dense; /* CRÍTICO: Reorganização automática sem espaços */
+  margin-bottom: 34px; /* Fibonacci */
+  
+  /* Garante que blocos sempre preencham o grid */
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+/**
+ * Proporção Golden Ratio: largura/altura ≈ 1.618
+ * 
+ * Para blocos span 8:
+ * - Largura: ~61.5% do grid
+ * - Altura: 233px (Fibonacci)
+ * - Ratio: depende do viewport, mas tende a Φ
+ * 
+ * Para blocos span 5:
+ * - Largura: ~38.5% do grid
+ * - Altura: 233px
+ * - Proporção 8:5 entre colunas
+ */
+
+/* KPIs Row */
+.kpisRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(233px, 1fr)); /* Fibonacci min-width */
+  gap: 21px; /* Fibonacci */
+  margin-bottom: 34px; /* Fibonacci */
+}
+
+/**
+ * Responsividade Golden Ratio - Breakpoints Fibonacci
+ * Mobile: 3 cols, Tablet: 5 cols, Desktop: 8 cols, Wide: 13 cols, Ultra: 21 cols
+ */
+
+/* Mobile (377px) - Blocos full width */
+@media (max-width: 609px) {
+  .chartsRow > * {
+    grid-column: 1 / -1 !important; /* Full width */
+  }
+}
+
+/* Tablet (610px-986px) - Ajuste para 5 colunas */
+@media (min-width: 610px) and (max-width: 986px) {
+  .chartsRow > *[style*="span 8"],
+  .chartsRow > *[style*="span 5"] {
+    grid-column: span 5 !important; /* Full width no tablet */
+  }
+}
+
+/* Desktop (987px-1596px) - Ajuste para 8 colunas */
+@media (min-width: 987px) and (max-width: 1596px) {
+  .chartsRow > *[style*="span 8"] {
+    grid-column: span 8 !important;
+  }
+  .chartsRow > *[style*="span 5"] {
+    grid-column: span 5 !important; /* Mantém proporção 8:5 */
+  }
+}
+
+/* Wide (1597px+) - Grid completo 13 colunas */
+@media (min-width: 1597px) {
+  .chartsRow > *[style*="span 8"] {
+    grid-column: span 8 !important;
+  }
+  .chartsRow > *[style*="span 5"] {
+    grid-column: span 5 !important;
+  }
+}
+
+/* Table Wrapper */
+.tableWrapper {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 13px; /* Fibonacci */
+}
+
+/* Ranking Table */
+.rankingTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px; /* Fibonacci */
+}
+
+.rankingTable thead {
+  position: sticky;
+  top: 0;
+  background: rgba(26, 31, 58, 0.95);
+  z-index: 10;
+}
+
+.rankingTable th {
+  text-align: left;
+  padding: 13px 8px; /* Fibonacci */
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.618); /* Φ - 1 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px; /* Fibonacci */
+}
+
+.rankingTable td {
+  padding: 8px; /* Fibonacci */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 233ms ease; /* Fibonacci timing */
+}
+
+.rankingTable tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.0382); /* 1/Φ² */
+}
+
+/* Progress bar com Golden Ratio */
+.confidenceBar {
+  height: 5px; /* Fibonacci */
+  background: linear-gradient(90deg, #3B82F6, #10B981);
+  border-radius: 3px; /* Fibonacci */
+  transition: width 377ms ease; /* Fibonacci */
+  margin-bottom: 3px; /* Fibonacci */
+}
+
+/* Table Cell Types */
+.rank {
+  width: 34px; /* Fibonacci */
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px; /* Fibonacci */
+}
+
+.hostId {
+  color: rgba(255, 255, 255, 0.87);
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 13px; /* Fibonacci */
+  display: flex;
+  align-items: center;
+}
+
+.metricName {
+  color: rgba(255, 255, 255, 0.87);
+  max-width: 233px; /* Fibonacci */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metricName code {
+  background: rgba(59, 130, 246, 0.1);
+  padding: 3px 5px; /* Fibonacci */
+  border-radius: 3px; /* Fibonacci */
+  font-size: 13px; /* Fibonacci */
+  font-family: 'Monaco', 'Courier New', monospace;
+  color: #60A5FA;
+}
+
+.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.87);
+  font-weight: 500;
+}
+
+.confidence {
+  min-width: 89px; /* Fibonacci */
+  text-align: right;
+}
+
+.confidence span {
+  display: block;
+  text-align: right;
+  font-size: 13px; /* Fibonacci */
+  color: rgba(255, 255, 255, 0.87);
+  font-weight: 600;
+}
+
+/**
+ * Responsive Breakpoints - Fibonacci Sequence
+ * 
+ * Mobile:  377px  → 3 colunas  → gap 8px
+ * Tablet:  610px  → 5 colunas  → gap 13px
+ * Desktop: 987px  → 8 colunas  → gap 21px
+ * Wide:    1597px → 13 colunas → gap 21px
+ * Ultra:   2584px → 21 colunas → gap 34px
+ */
+
+/* Mobile: 377px (Fibonacci) */
+@media (max-width: 377px) {
+  .container {
+    padding: 8px; /* Fibonacci */
+  }
+
+  .kpisRow {
+    grid-template-columns: 1fr;
+    gap: 8px; /* Fibonacci */
+  }
+
+  .sectionTitle {
+    font-size: 13px; /* Fibonacci */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px; /* Fibonacci */
+  }
+
+  .gridInfo {
+    font-size: 8px; /* Fibonacci */
+  }
+
+  .rankingTable {
+    font-size: 8px; /* Fibonacci */
+  }
+
+  .rankingTable th,
+  .rankingTable td {
+    padding: 5px 3px; /* Fibonacci */
+  }
+}
+
+/* Tablet: 610px (Fibonacci) */
+@media (min-width: 377px) and (max-width: 610px) {
+  .container {
+    padding: 13px; /* Fibonacci */
+  }
+
+  .kpisRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px; /* Fibonacci */
+  }
+}
+
+/* Desktop: 987px (Fibonacci) */
+@media (min-width: 610px) and (max-width: 987px) {
+  .kpisRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px; /* Fibonacci */
+  }
+}
+
+/* Wide: 1597px (Fibonacci) */
+@media (min-width: 987px) and (max-width: 1597px) {
+  .kpisRow {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 21px; /* Fibonacci */
+  }
+}
+
+/* Ultra-wide: 2584px+ (Fibonacci) */
+@media (min-width: 1597px) {
+  .kpisRow {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 21px; /* Fibonacci */
+  }
+
+  .chartsRow {
+    gap: 34px; /* Fibonacci - maior gap em telas ultra-wide */
+  }
+}
+
+/**
+ * Utility classes com Golden Ratio
+ */
+.goldenRatio {
+  aspect-ratio: 1.618 / 1; /* Golden ratio */
+}
+
+.goldenRatioInverse {
+  aspect-ratio: 1 / 1.618; /* Vertical golden ratio */
+}
+
+.fibonacci3 { width: 3px; }
+.fibonacci5 { width: 5px; }
+.fibonacci8 { width: 8px; }
+.fibonacci13 { width: 13px; }
+.fibonacci21 { width: 21px; }
+.fibonacci34 { width: 34px; }
+.fibonacci55 { width: 55px; }
+.fibonacci89 { width: 89px; }
+.fibonacci144 { width: 144px; }
+.fibonacci233 { width: 233px; }
+.fibonacci377 { width: 377px; }
+.fibonacci610 { width: 610px; }
+
+/**
+ * Animation Timing - Fibonacci
+ */
+.transitionFast { transition: all 89ms ease; }
+.transitionNormal { transition: all 144ms ease; }
+.transitionMedium { transition: all 233ms ease; }
+.transitionSlow { transition: all 377ms ease; }
+.transitionVerySlow { transition: all 610ms ease; }
+
+/**
+ * Easing Functions - Golden Ratio
+ */
+.easingGolden {
+  transition-timing-function: cubic-bezier(0.618, 0, 0.382, 1);
+}
+
+.easingGoldenInverse {
+  transition-timing-function: cubic-bezier(0.382, 0, 0.618, 1);
+}
